@@ -1,0 +1,20 @@
+{
+  "theme": { "bg": "#F6F2EA", "ink": "#1D1A24", "accent": "#C6F36D", "font": "Inter" },
+  "phone": { "width": 0.78, "top": 0.30, "radius": 0.06 },
+  "locales": ["en"],
+  "devices": {
+    "ios-69": { "w": 1320, "h": 2868, "captures": "captures/{locale}/iphone69" },
+    "ios-61": { "w": 1206, "h": 2622, "captures": "captures/{locale}/iphone61" },
+    "play-phone": { "w": 1080, "h": 2160, "captures": "captures/{locale}/android" }
+  },
+  "frames": {
+    "en": [
+      { "headline": "Plans that fit your week", "sub": "Meals and workouts that adapt", "capture": "01_today.png" },
+      { "headline": "Log a meal in seconds", "sub": "Type it, say it or scan it", "capture": "02_log.png" },
+      { "headline": "Train with a plan", "sub": "Built from your days and equipment", "capture": "03_workout.png" },
+      { "headline": "See the trend", "sub": "Weekly averages, not single days", "capture": "04_insights.png" },
+      { "headline": "Free to start", "sub": "Premium has a 7-day free trial", "capture": "05_paywall.png" }
+    ]
+  },
+  "feature": { "w": 1024, "h": 500, "headline": { "en": "Plans that fit your real week" } }
+}

@@ -1,0 +1,9 @@
+{
+  "name": "store-screenshots-scripts",
+  "private": true,
+  "type": "module",
+  "description": "Render, check and upload store screenshots",
+  "dependencies": {
+    "playwright-core": "^1.48.0"
+  }
+}

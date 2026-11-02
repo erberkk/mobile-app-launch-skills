@@ -1,0 +1,76 @@
+<!doctype html>
+<!--
+  Panorama template: all frames sit side by side on one wide canvas so background
+  shapes continue across frame edges. render.mjs injects window.CONFIG and then
+  screenshots each frame slice at exact pixel size.
+
+  CONFIG = {
+    frame: { w: 1320, h: 2868 },           // output pixels of one frame
+    theme: { bg: "#F6F2EA", ink: "#1D1A24", accent: "#C6F36D", font: "Inter" },
+    frames: [{ headline, sub, capture /* file URL of a real app capture */ }],
+    phone: { width: 0.78, top: 0.30, radius: 0.06 }   // relative to frame size
+  }
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  /* Opaque background: screenshots must not contain an alpha channel. */
+  html, body { background: var(--bg); }
+  body { font-family: var(--font), system-ui, sans-serif; color: var(--ink); -webkit-font-smoothing: antialiased; }
+  #canvas { position: relative; overflow: hidden; }
+  .band { position: absolute; border-radius: 50%; background: var(--accent); opacity: .9; }
+  .frame { position: absolute; top: 0; }
+  .copy { position: absolute; left: 7%; right: 7%; top: 6%; }
+  .headline { font-weight: 800; letter-spacing: -0.03em; line-height: 1.02; }
+  .sub { margin-top: .6em; opacity: .72; line-height: 1.25; font-weight: 500; }
+  .phone { position: absolute; left: 50%; transform: translateX(-50%); overflow: hidden;
+           background: #000; box-shadow: 0 40px 80px rgba(0,0,0,.18); }
+  .phone img { display: block; width: 100%; height: auto; }
+</style>
+</head>
+<body>
+<div id="canvas"></div>
+<script>
+  // Called by render.mjs after injecting window.CONFIG.
+  window.build = function () {
+    const c = window.CONFIG, W = c.frame.w, H = c.frame.h, n = c.frames.length;
+    const root = document.documentElement.style;
+    root.setProperty("--bg", c.theme.bg); root.setProperty("--ink", c.theme.ink);
+    root.setProperty("--accent", c.theme.accent); root.setProperty("--font", c.theme.font);
+    const canvas = document.getElementById("canvas");
+    canvas.style.width = W * n + "px"; canvas.style.height = H + "px";
+
+    // One continuous shape that crosses frame edges (the "panorama" effect).
+    for (let i = 0; i < n; i += 2) {
+      const b = document.createElement("div");
+      b.className = "band";
+      const size = H * 0.55;
+      Object.assign(b.style, { width: size + "px", height: size + "px",
+        left: (i + 1) * W - size / 2 + "px", top: H * (i % 4 ? 0.62 : 0.48) + "px" });
+      canvas.appendChild(b);
+    }
+
+    c.frames.forEach((f, i) => {
+      const el = document.createElement("section");
+      el.className = "frame";
+      Object.assign(el.style, { left: i * W + "px", width: W + "px", height: H + "px" });
+      const scale = W / 1320;  // type scales with frame width
+      el.innerHTML = `
+        <div class="copy">
+          <h1 class="headline" style="font-size:${120 * scale}px"></h1>
+          <p class="sub" style="font-size:${54 * scale}px"></p>
+        </div>
+        <div class="phone" style="width:${W * c.phone.width}px;top:${H * c.phone.top}px;border-radius:${W * c.phone.radius}px">
+          <img alt="">
+        </div>`;
+      el.querySelector(".headline").textContent = f.headline;
+      el.querySelector(".sub").textContent = f.sub || "";
+      el.querySelector("img").src = f.capture;
+      canvas.appendChild(el);
+    });
+  };
+</script>
+</body>
+</html>

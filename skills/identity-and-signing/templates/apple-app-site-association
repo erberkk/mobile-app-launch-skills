@@ -1,0 +1,17 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["<TEAM_ID>.com.example.app"],
+        "components": [
+          { "/": "/invite/*", "comment": "Invite links" },
+          { "/": "/open/*", "comment": "Deep links into the app" },
+          { "/": "/privacy", "exclude": true, "comment": "Keep legal pages in the browser" }
+        ]
+      }
+    ]
+  },
+  "webcredentials": {
+    "apps": ["<TEAM_ID>.com.example.app"]
+  }
+}

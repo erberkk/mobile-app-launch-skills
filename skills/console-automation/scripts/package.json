@@ -1,0 +1,9 @@
+{
+  "name": "console-automation",
+  "private": true,
+  "type": "module",
+  "description": "Playwright-over-CDP runner for store consoles",
+  "dependencies": {
+    "playwright-core": "^1.48.0"
+  }
+}

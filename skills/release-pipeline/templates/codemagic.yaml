@@ -1,0 +1,116 @@
+# Codemagic workflows for a Flutter app. Replace com.example.app and group names.
+# Secrets live only in Codemagic environment groups (secure):
+#   app_android: ANDROID_KEYSTORE_B64, ANDROID_KEYSTORE_PASSWORD, ANDROID_KEY_ALIAS, ANDROID_KEY_PASSWORD
+#   app_ios:     CERTIFICATE_PRIVATE_KEY (RSA key of the distribution certificate)
+# Public SDK keys (not secrets, but not committed): REVENUECAT_ANDROID_KEY, REVENUECAT_IOS_KEY
+# tool/secret-scan.mjs = skills/release-pipeline/scripts/secret-scan.mjs copied into the app repo.
+# Builds upload to internal tracks only. Nothing here submits for review or releases.
+
+workflows:
+  android-internal:
+    name: Android - signed AAB to internal testing
+    instance_type: mac_mini_m2
+    max_build_duration: 60
+    cache:
+      cache_paths: [$HOME/.pub-cache, $HOME/.gradle/caches]
+    environment:
+      flutter: 3.x.y        # pin exact; bump on purpose after a full local test run
+      java: 17
+      groups: [app_android]
+    scripts:
+      - name: Secret scan
+        script: node tool/secret-scan.mjs
+      - name: Dependencies
+        script: flutter pub get
+      - name: Tests
+        script: flutter test
+      - name: Restore upload keystore
+        script: |
+          set -e
+          echo "$ANDROID_KEYSTORE_B64" | base64 --decode > "$CM_BUILD_DIR/upload.jks"
+          cat > "$CM_BUILD_DIR/android/key.properties" <<EOF
+          storeFile=$CM_BUILD_DIR/upload.jks
+          storePassword=$ANDROID_KEYSTORE_PASSWORD
+          keyAlias=$ANDROID_KEY_ALIAS
+          keyPassword=$ANDROID_KEY_PASSWORD
+          EOF
+      - name: Build AAB
+        script: |
+          test -n "$REVENUECAT_ANDROID_KEY" || { echo "missing REVENUECAT_ANDROID_KEY"; exit 1; }
+          flutter build appbundle --release \
+            --build-number=$BUILD_NUMBER \
+            --dart-define=REVENUECAT_ANDROID_KEY=$REVENUECAT_ANDROID_KEY \
+            --obfuscate --split-debug-info=build/symbols
+      - name: Verify signature (not debug)
+        script: |
+          set -e
+          AAB=$(ls build/app/outputs/bundle/release/*.aab | head -1)
+          keytool -printcert -jarfile "$AAB" | grep -E "Owner|SHA256" | head -3
+          if keytool -printcert -jarfile "$AAB" | grep -q "CN=Android Debug"; then echo "debug-signed"; exit 1; fi
+    artifacts:
+      - build/app/outputs/bundle/release/*.aab
+      - build/app/outputs/mapping/release/mapping.txt
+      - build/symbols/**
+    publishing:
+      email:
+        recipients: [alerts@example.com]
+        notify: { success: false, failure: true }
+      google_play:
+        credentials: $GOOGLE_PLAY_SERVICE_ACCOUNT_JSON   # secure variable in app_android
+        track: internal
+        submit_as_draft: false
+
+  ios-testflight:
+    name: iOS - upload to TestFlight (internal)
+    instance_type: mac_mini_m2
+    max_build_duration: 60
+    cache:
+      cache_paths: [$HOME/.pub-cache, $HOME/Library/Caches/CocoaPods]
+    integrations:
+      app_store_connect: <INTEGRATION_NAME>   # team API key; reference only
+    environment:
+      flutter: 3.x.y
+      xcode: 26.x            # pin; check Apple's minimum SDK requirement for uploads
+      cocoapods: 1.x.y
+      groups: [app_ios]
+      vars:
+        BUNDLE_ID: com.example.app
+    scripts:
+      - name: Secret scan
+        script: node tool/secret-scan.mjs
+      - name: Dependencies
+        script: flutter pub get
+      - name: Code signing
+        script: |
+          set -e
+          keychain initialize
+          app-store-connect fetch-signing-files "$BUNDLE_ID" --type IOS_APP_STORE \
+            --certificate-key=@env:CERTIFICATE_PRIVATE_KEY --strict-match-identifier --create
+          keychain add-certificates
+          xcode-project use-profiles
+      - name: Pods
+        script: cd ios && pod install --repo-update
+      - name: Build IPA
+        script: |
+          test -n "$REVENUECAT_IOS_KEY" || { echo "missing REVENUECAT_IOS_KEY"; exit 1; }
+          flutter build ipa --release \
+            --build-number=$BUILD_NUMBER \
+            --dart-define=REVENUECAT_IOS_KEY=$REVENUECAT_IOS_KEY \
+            --obfuscate --split-debug-info=build/symbols \
+            --export-options-plist=/Users/builder/export_options.plist
+      - name: Show signed entitlements
+        script: |
+          APP=$(find build/ios/archive -maxdepth 4 -name "Runner.app" | head -1)
+          [ -n "$APP" ] && codesign -d --entitlements - "$APP" 2>/dev/null | grep -E "team-identifier|associated-domains|healthkit|application-groups" -A2 || true
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - build/symbols/**
+      - /tmp/xcodebuild_logs/*.log
+    publishing:
+      email:
+        recipients: [alerts@example.com]
+        notify: { success: false, failure: true }
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: false   # upload only; internal testers get processed builds without review
+        submit_to_app_store: false
