@@ -1,0 +1,26 @@
+# robots.txt for an app website. Replace example.com. The AI section is the owner's decision
+# (see references/ai-crawlers.md); this version allows search, answer and training bots.
+# robots.txt controls crawling, not indexing: pages that must stay out of results send noindex.
+
+User-agent: *
+Allow: /
+# Do not Disallow /i/ (invite pages) or token pages: crawlers must fetch them to see their noindex.
+
+# Search and user-initiated assistant fetches
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: Claude-SearchBot
+User-agent: Claude-User
+User-agent: PerplexityBot
+User-agent: Perplexity-User
+Allow: /
+
+# Training (to opt out, change Allow to Disallow for this group)
+User-agent: GPTBot
+User-agent: ClaudeBot
+User-agent: Google-Extended
+User-agent: Applebot-Extended
+User-agent: CCBot
+Allow: /
+
+Sitemap: https://example.com/sitemap.xml

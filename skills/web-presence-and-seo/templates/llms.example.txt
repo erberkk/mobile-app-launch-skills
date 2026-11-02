@@ -1,0 +1,20 @@
+# Example
+
+> Example is a habit-tracking app for iPhone and Android that <one concrete sentence about what it does, in the words the app itself uses>. Free to download with an optional subscription.
+
+## What it does
+- <Feature 1, named as in the app>: <what the user gets>.
+- <Feature 2>: <what the user gets>.
+- Free plan: <the real free limits from the shipped build>. Subscription: <what it adds>; prices depend on your country and are shown in the App Store and Google Play.
+- Languages: <the languages the shipped app supports>.
+- Privacy: <one true sentence, e.g. "no ads, no third-party trackers on this site; delete your account in the app">.
+- <Disclaimer if relevant, e.g. "Not medical advice.">
+
+## Links
+- [Home](https://example.com/): overview and FAQ
+- [Pricing](https://example.com/#pricing): prices for your country
+- [FAQ](https://example.com/#faq)
+- [Privacy policy](https://example.com/privacy)
+- [Terms](https://example.com/terms)
+- [Support](https://example.com/support)
+- [Delete your account](https://example.com/delete-account)

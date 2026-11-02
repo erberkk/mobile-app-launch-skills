@@ -2,7 +2,7 @@
 
 **Agent skills for shipping an iOS and Android app to the Apple App Store and Google Play, from developer accounts to post-launch operations.**
 
-This repository is a set of [Claude Code](https://docs.claude.com/en/docs/claude-code) / Agent skills. Each skill is a focused, step-by-step procedure an agent can follow (and a human can read) for one part of the launch: accounts and tax, signing, subscriptions, listings, screenshots, privacy declarations, review readiness, release pipeline, console automation and post-launch operations.
+This repository is a set of [Claude Code](https://docs.claude.com/en/docs/claude-code) / Agent skills. Each skill is a focused, step-by-step procedure an agent can follow (and a human can read) for one part of the launch: accounts and tax, signing, website and SEO, subscriptions, listings, screenshots, privacy declarations, review readiness, release pipeline, console automation and post-launch operations.
 
 The skills come from shipping a real subscription app as an indie developer. Examples lean toward Flutter, but almost everything applies to native iOS/Android, React Native or any other stack.
 
@@ -29,6 +29,7 @@ Scripts are Node.js 18+ ES modules unless noted. They have no dependencies excep
 | [launch-orchestrator](skills/launch-orchestrator/SKILL.md) | You want the whole launch sequenced, with checkpoints and approval gates |
 | [accounts-and-tax](skills/accounts-and-tax/SKILL.md) | Opening Apple/Google developer accounts, reduced-fee programs, bank and tax forms, API keys and service accounts |
 | [identity-and-signing](skills/identity-and-signing/SKILL.md) | Bundle/application IDs, capabilities, certificates and profiles, Play App Signing, universal links / App Links |
+| [web-presence-and-seo](skills/web-presence-and-seo/SKILL.md) | The website the stores need (privacy, terms, support, account deletion), `.well-known` hosting, invite pages, landing page with honest per-country prices, OG images, technical SEO, Search Console / IndexNow, AI crawlers, Cloudflare Worker deploy |
 | [subscriptions-and-payments](skills/subscriptions-and-payments/SKILL.md) | Subscription products, trials, per-country prices, grace periods, RevenueCat, purchase testing, paywall states |
 | [listing-and-aso](skills/listing-and-aso/SKILL.md) | Writing and validating names, subtitles, keywords and descriptions per locale and per store |
 | [store-screenshots](skills/store-screenshots/SKILL.md) | Producing real-capture screenshots for every required device size and uploading them through the APIs |

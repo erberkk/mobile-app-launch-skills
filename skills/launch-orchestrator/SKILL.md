@@ -1,6 +1,6 @@
 ---
 name: launch-orchestrator
-description: Use when planning or running the end-to-end launch of a mobile app on the Apple App Store and Google Play, or when unsure which launch step comes next. Sequences the other launch skills (accounts, signing, subscriptions, listing, screenshots, privacy, review readiness, release pipeline, console automation, post-launch ops) into phases with checkpoints and human approval gates, and keeps a launch status file up to date.
+description: Use when planning or running the end-to-end launch of a mobile app on the Apple App Store and Google Play, or when unsure which launch step comes next. Sequences the other launch skills (accounts, signing, website and SEO, subscriptions, listing, screenshots, privacy, review readiness, release pipeline, console automation, post-launch ops) into phases with checkpoints and human approval gates, and keeps a launch status file up to date.
 ---
 
 # Launch orchestrator
@@ -32,14 +32,15 @@ Skill: `accounts-and-tax`.
 
 ### Phase 1 — Identity, signing, CI (week 0–1)
 
-Skills: `identity-and-signing`, `release-pipeline`.
+Skills: `identity-and-signing`, `release-pipeline`, `web-presence-and-seo`.
 
 1. Register the bundle ID / application ID, enable only the capabilities the app uses.
 2. Set up signing in CI (App Store profiles via the API; Play App Signing with a separate upload key).
 3. Pin toolchain versions in CI; add the secret scan; first internal builds to TestFlight and Play internal testing. **APPROVAL** for every CI build that uploads to a store.
 4. Publish `apple-app-site-association` and `assetlinks.json` if you use universal links / App Links; verify fingerprints.
+5. Put the website live with the pages the store forms need: privacy policy, terms, support, web account-deletion page (signed-out, stable URLs, one per language), plus the `.well-known` files from step 4 served without redirects. Run `check-site.mjs`. **APPROVAL** for the production deploy and any DNS change.
 
-**Checkpoint 1:** a signed build installs from TestFlight and from Play internal testing on real devices.
+**Checkpoint 1:** a signed build installs from TestFlight and from Play internal testing on real devices; every URL in the store-url checklist (`web-presence-and-seo`) returns 200 signed-out.
 
 ### Phase 2 — Start the clock on Google Play closed testing (as early as possible)
 
@@ -62,8 +63,9 @@ Skill: `subscriptions-and-payments`.
 
 ### Phase 4 — Store presence (parallel with Phase 3)
 
-Skills: `listing-and-aso`, `store-screenshots`, `privacy-and-declarations`.
+Skills: `listing-and-aso`, `store-screenshots`, `privacy-and-declarations`, `web-presence-and-seo`.
 
+0. The website from Phase 1 is live: the privacy, support and deletion URLs go into these forms. Landing page in the same visual language as the screenshots; Search Console and Bing verified, sitemap submitted.
 1. Listing text per locale and per store; run the validator.
 2. Screenshots from real captures for every required size; upload through the APIs.
 3. Privacy: code/SDK scan → App Privacy, Data safety, privacy manifest, export compliance, age rating, account deletion URL, health and AI disclosures. Privacy policy updated to match.
@@ -86,7 +88,7 @@ Skills: `release-pipeline` (staged rollout, kill switches), `post-launch-ops`.
 
 1. Release. On Play use a staged rollout for updates (the first production release cannot be staged).
 2. Alerts, crash reporting, AI cost guards and review monitoring are live **before** the release, not after.
-3. Update the website "coming soon" text and store links after release.
+3. Update the website after release (`web-presence-and-seo`): "coming soon" → real store badges, Smart App Banner, store links in JSON-LD and `llms.txt`, then ping IndexNow. **APPROVAL** before the switch.
 
 ## Status file template
 
