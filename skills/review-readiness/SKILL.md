@@ -17,7 +17,7 @@ Submit once and pass. Most rejections are not about the app's idea; they are a r
 
 ## Think like a zero-knowledge reviewer
 
-The reviewer installs a clean build on a device you did not test (often an iPad, even for an iPhone-only app), with a fresh store account, in a different country, and has minutes, not hours. They read your notes, try the sign-in, look for the purchase, and compare screenshots with the app. Every rejection seen in practice combined two or three small layers: account state + backend behaviour + metadata.
+Assume the reviewer installs a clean build on a device you did not test (an iPhone-only app can be reviewed on an iPad in compatibility mode), with a fresh store account, and has limited time. They read your notes, try the sign-in, look for the purchase, and compare screenshots with the app. A single rejection can combine several layers: account state, backend behaviour and metadata.
 
 ## Procedure
 
@@ -67,11 +67,11 @@ The reviewer installs a clean build on a device you did not test (often an iPad,
 
 Fill in [templates/review-notes.md](templates/review-notes.md). Keep it factual: where features are, how to sign in, how to test the purchase, how AI and health data are handled, where account deletion is.
 
-New apps increasingly get **Guideline 2.1 "Information Needed"** before any real review. Apple then asks for six things in the Notes field; answer all of them up front in the first submission:
+Apple may respond with **Guideline 2.1 "Information Needed"** instead of reviewing. In one observed case it asked for the six items below; answering them up front in the first submission avoids a round trip:
 1. A **screen recording from a physical device on the latest OS**, starting at app launch and showing the typical flow: registration, login, **account deletion**, any user-generated content with reporting/blocking, and access to paid content. Record it with the submitted build; attach the file to the reply in the submission's Messages (or link it) and mention it in Notes. Never use the demo review account for the deletion part: create a fresh account in the recording.
 2. The app's purpose and target audience: the problem it solves and its value.
 3. Setup and access instructions for the main features, with demo credentials and menu paths.
-4. Every external service behind core features: auth/database, payments (StoreKit + any wrapper), AI providers, data sources (e.g. food or map APIs), email, health frameworks.
+4. Every external service behind core features: auth/database, payments (StoreKit + any wrapper), AI providers, data sources (e.g. map APIs), email, health frameworks.
 5. Regional differences, or a statement that features are the same everywhere.
 6. For regulated areas or third-party protected content: documentation or a statement that none applies (e.g. "general wellness, not a medical device").
 
@@ -104,7 +104,7 @@ The go/no-go report is complete with evidence, and someone who did not build the
 - Product-page assets are locked while the version is "Waiting for Review" (e.g. the newer Header asset). Add everything before submitting; otherwise you must remove the version from review, edit, and resubmit (you lose your place in the queue).
 - Apple's own "Add for Review" check passing does not mean optional assets are set: an empty Header asset is allowed, so decide about it before you submit.
 - A reviewer's fresh Apple Account collides with your restore/transfer rules and the purchase "fails".
-- Backend on a free tier that pauses after inactivity or rate-limits the reviewer.
+- Backend on a plan that pauses after inactivity or rate-limits the reviewer.
 - "Coming soon" anywhere in the build.
 - In-app text mentioning the other store.
-- Review notes that only explain the demo login; a 2.1 "Information Needed" reply then costs a round trip (recording, purpose, services, regions).
+- Review notes that only explain the demo login (no recording, purpose, services or regions).

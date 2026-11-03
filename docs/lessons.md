@@ -26,19 +26,15 @@ Anonymized incidents from shipping subscription apps to the App Store and Google
 
 ## Privacy
 
-**The policy said health data "never leaves the phone"; the code synced it and fed it to the AI assistant.** Sleep data from the platform health store was added to the server for a new insights feature, and the assistant's context builder included "everything we know about the user". Caught in a pre-submission audit, not by review. The fix was a rule, not a sentence: data from Apple Health / Health Connect never goes to the AI provider or any third party, enforced by an allow-list in the request builder and a test. → `privacy-and-declarations` sections 9–10.
+**A policy sentence contradicted what the code did.** The policy said data never leaves the phone while a later feature synced it to a server. → Derive policy, store forms and in-app text from one code scan, every release (`privacy-and-declarations`).
 
 **The store privacy answers were older than the app.** They still said "no diagnostics collected" after an anonymous crash reporter and usage counters had shipped. → Derive answers from a code scan each release.
-
-**The free-tier numbers differed between the handoff doc, the store description and the code.** → Numbers in listings come from code; the validator warns on numbers not listed as facts.
 
 **A delete-account endpoint started requiring re-authentication before the app that understood the new response shipped.** Old app versions would have shown a generic error. → Ship the backend change and the app change together, or keep the old behaviour for old versions.
 
 ## Screenshots and claims
 
-**A screenshot showed a settings row the app didn't have.** It came from a design mock. Instead of removing it, the team built the feature, because it was a good idea — and only then shipped the screenshot. → Screenshots are real captures; if a frame and the app disagree, fix one of them before upload.
-
-**An AI food parser counted a composite dish twice** (the dish and its listed ingredients), so a screenshot-worthy daily total was inflated. → Numbers in screenshots must be what the app really outputs for the demo data; an evaluation set with expected ranges caught the regression.
+**A screenshot showed UI the app did not have.** → Real captures only; if a frame and the app disagree, fix one of them before upload (`store-screenshots`).
 
 **"Unlimited" in a draft listing while the backend had daily caps.** → Say "generous allowance (fair use)"; the validator blocks "unlimited".
 
@@ -68,15 +64,7 @@ Anonymized incidents from shipping subscription apps to the App Store and Google
 
 **The first subscriptions could not be added to the review draft.** One subscription had no display-name localization, and neither had a review screenshot. → Fill localization and a real paywall screenshot for every product before "Add for Review".
 
-**The Instagram account-linking pop-up offered the founder's personal account.** The browser was logged in to the personal profile; continuing would have linked it to the brand Page and converted it to a professional account. → Read the "Log in as …" name in every OAuth pop-up; switch to the brand account first.
-
-**A month of content was planned as if the app were live on both stores on day 1.** iOS was still in review and Android needed 14 more days of closed testing, so most CTAs ("free on iOS & Android") were wrong, and an audit also found claims that contradicted the app. → Phase the calendar on real launch events and check every claim against the shipped build.
-
-**The self-hosted scheduler's backend would not start after removing Elasticsearch.** Temporal's database still held the default text search attributes from the Elasticsearch setup. → Disable the default attributes and recreate the Temporal database before scheduling anything.
-
 **The version was pulled from review to add a product-page Header image; the new draft no longer contained the subscriptions.** Removing a version from review marks the version and its subscriptions "Developer Rejected" and empties the draft. → Add every product-page asset before submitting; if you must pull a version, re-add the group and each subscription and check the draft lists all items.
 
 **The first iOS submission came back as 2.1 "Information Needed", not a rejection for a bug.** Apple asked for a device screen recording from launch through registration, paid features and account deletion, plus purpose, setup steps, external services, regional differences and regulatory status. The notes had only covered the demo login. → `review-readiness` section 6 lists all six items; answer them in the first submission.
-**A guest rate limit (by IP) was accidentally applied to paying subscribers.** → Test limits per user type; alert on limit hits for premium users.
 
-**An escalation to a larger AI model fired far more often than intended.** After fixing the escalation rule, cost per request dropped by more than an order of magnitude. → Alert on every expensive-model escalation while tuning; track AI cost per paying user daily.

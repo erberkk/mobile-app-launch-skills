@@ -19,10 +19,10 @@ Screenshots that convert, are true to the app, and fit every slot the stores req
 ## Principles
 
 1. **Real captures, not mockups.** Every phone screen inside a frame is a capture of the shipped app. Redrawn or "improved" UI misleads (guideline 2.3) and gets out of date.
-2. **Numbers must match the app.** If a frame shows "1,850 kcal" or "12 min", the app must produce exactly that for the demo data. Generate the demo data in the harness and assert on it in the same test.
+2. **Numbers must match the app.** If a frame shows "1,850 steps" or "12 min", the app must produce exactly that for the demo data. Generate the demo data in the harness and assert on it in the same test.
 3. **If a screenshot shows something the app doesn't do, fix one of them.** Either build the feature or change the frame. Never ship the gap.
 4. **No other platform in the frames.** No Android status/navigation bars on iOS, no Apple UI or "App Store" on Play (2.3.10).
-5. **Order is the story.** The first two or three frames carry most of the conversion; keep the same order in every locale and on every device.
+5. **Keep the same frame order** in every locale and on every device.
 
 ## Device matrix
 
@@ -44,17 +44,17 @@ Apple: up to 10 per size; PNG or JPEG; **no alpha channel or transparency**. Pla
 
 **App Store product-page creative assets (newer App Store Connect, "Header and Search Results" tab):**
 
-- **Header**: one wide image at the top of the product page, 3840×1646 or 5244×2950. Optional (submission passes without it), but an empty slot wastes the most visible area of the page.
+- **Header**: one wide image at the top of the product page, 3840×1646 or 5244×2950. Optional (submission passes without it).
 - **Search Results**: 5244×2950, 3840×2560 or 1920×1280; if empty, screenshots and previews are used.
 - Upload through the version page or the **Asset Library** (Upload Creative Assets), then pick it with Browse Assets. Assets uploaded to the library stay there for later use.
-- Design: keep the lower-left area calm (the store overlays the icon, name and Get button), keep text big enough to read at phone width, and reuse the site hero's look so the page and the site match.
+- Design note: the store overlays the icon, name and Get button on part of the header, so check the result in the console preview.
 - These slots are **locked while the version is Waiting for Review**. Add them before submitting.
 
 ## Procedure
 
 ### 1. Plan the story (APPROVAL of the storyboard)
 
-Write a storyboard of 5–8 frames: one headline (≤ 6 words), one supporting line, one capture each. The "panorama" approach: frames are slices of one wide canvas, so shapes, color fields and cards continue across frame edges and invite the swipe. The first frame states the core promise; the last frame states the offer (free start, trial) truthfully.
+Write a storyboard of 5–8 frames: one headline (≤ 6 words), one supporting line, one capture each. Optional "panorama" layout (what the bundled template does): frames are slices of one wide canvas, so shapes continue across frame edges. Whatever the layout, any offer shown (free start, trial) must be true.
 
 ### 2. Capture real screens
 
@@ -66,8 +66,8 @@ tester.view.physicalSize = const Size(1320, 2868);
 tester.view.devicePixelRatio = 3.0;
 await tester.pumpWidget(App(demo: DemoData.storeShots(locale: 'en')));
 await tester.pumpAndSettle();
-expect(find.text('1,850 kcal'), findsOneWidget);       // the number in the headline is real
-await expectLater(find.byType(App), matchesGoldenFile('captures/en/iphone69/01_today.png'));
+expect(find.text('1,850 steps'), findsOneWidget);       // the number in the headline is real
+await expectLater(find.byType(App), matchesGoldenFile('captures/en/iphone69/01_home.png'));
 ```
 
 - Load fonts in tests (otherwise the test font renders boxes).

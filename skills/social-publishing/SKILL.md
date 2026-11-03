@@ -1,6 +1,6 @@
 ---
 name: social-publishing
-description: Use when setting up scheduled publishing of an app's marketing content to Instagram (Reels, carousels, Stories), Threads, X and TikTok through official APIs - self-hosting Postiz in Docker behind a Cloudflare Tunnel, creating the Meta app with the newer use-case flow (business portfolio, Facebook Page linked to the Instagram professional account, Threads tester invite), X developer pay-per-use credits and spend cap, TikTok and YouTube audit limits, safe OAuth account selection when one browser holds personal and brand accounts, resource limits, and a content calendar split into pre-launch and post-launch phases.
+description: Use when setting up scheduled publishing of an app's marketing content to Instagram (Reels, carousels, Stories), Threads, X and TikTok through official APIs - self-hosting Postiz in Docker behind a Cloudflare Tunnel, creating the Meta app with the newer use-case flow (business portfolio, Facebook Page linked to the Instagram professional account, Threads tester invite), X developer pay-per-use credits and spend cap, TikTok and YouTube audit limits, safe OAuth account selection when one browser holds personal and brand accounts, resource limits, and phasing a posting calendar around real launch events.
 ---
 
 # Social publishing
@@ -14,7 +14,7 @@ Post the launch content on a schedule from one place, through each platform's of
 - Brand accounts already created: Instagram **professional** account, Threads profile (comes from Instagram), X account, optionally TikTok.
 - A domain on Cloudflare (for the tunnel hostname), Docker Desktop, a machine that stays on at posting times (or a small VPS).
 - The `console-automation` setup if consoles are driven from a browser.
-- A content calendar (see "Calendar" below). Publishing tooling does not fix weak content.
+- A content calendar (see "Calendar" below).
 
 ## Platform reality (check again before you start; these change)
 
@@ -22,8 +22,8 @@ Post the launch content on a schedule from one place, through each platform's of
 |---|---|---|
 | Instagram | Meta app + Facebook Login, IG professional account **linked to a Facebook Page** | New Meta apps get the "Unified login" Instagram setup, which requires a **business portfolio**; the older Instagram-Login-only setup is "not available for newer apps". Stories publish as plain media: no poll, link or countdown stickers via API. |
 | Threads | Meta app with the Threads use case | Until App Review, only accounts with the **Threads Tester** role can connect; the tester accepts in Threads › Settings › Account › Website permissions › Invites. |
-| X | Developer account, pay-per-use credits (no free tier for new developers since 2026) | Needs a payment method; set a **monthly spend cap**. |
-| TikTok | Content Posting API | Unaudited apps post **private only** until the audit passes (weeks). New accounts need **phone verification**, and one number can belong to only one account. |
+| X | Developer account with paid API access (check [current X API pricing](https://docs.x.com/x-api/getting-started/pricing)) | Needs a payment method; set a spend cap. |
+| TikTok | Content Posting API | Unaudited apps post **private only** until the audit passes (the audit takes time). New accounts need **phone verification**, and one number can belong to only one account. |
 | YouTube | Data API upload | Unverified API projects upload as **private** until a compliance audit. |
 
 Plan around the blockers: start audits early, post TikTok/YouTube natively (TikTok Studio, YouTube Studio schedulers) until audits pass, or drop the platform.
@@ -37,7 +37,7 @@ Plan around the blockers: start audits early, post TikTok/YouTube natively (TikT
    - **Drop Elasticsearch**: set Temporal `ENABLE_ES=false` and `SKIP_ADD_CUSTOM_SEARCH_ATTRIBUTES=true` (SQL visibility). Postiz only registers two keyword attributes. If Temporal was first started with ES, its database still holds the default text attributes and Postiz fails with "cannot have more than 3 search attribute of type Text": recreate the Temporal database volume before anything is scheduled.
    - Bind Postiz to `127.0.0.1` only; set `MAIN_URL`, `FRONTEND_URL`, `NEXT_PUBLIC_BACKEND_URL` to the public HTTPS hostname.
    - Put secrets (`JWT_SECRET`, tunnel token, app keys) in a git-ignored `.env`, referenced as `${VAR}` in the compose file.
-   - Add `mem_limit`/`cpus` per service. Postiz itself (frontend, backend, orchestrator in one container) needs about 1.5 GB; give it 2 GB so it doesn't hit the cap. On Windows also cap the WSL VM in `%USERPROFILE%\.wslconfig` (`memory=4GB`, `processors=4`, `autoMemoryReclaim=gradual`), then `wsl --shutdown` and restart Docker Desktop.
+   - Add `mem_limit`/`cpus` per service. Postiz runs frontend, backend and orchestrator in one container; we observed about 1.5 GB use, so a 2 GB limit avoided hitting the cap. On Windows also cap the WSL VM in `%USERPROFILE%\.wslconfig` (`memory=4GB`, `processors=4`, `autoMemoryReclaim=gradual`), then `wsl --shutdown` and restart Docker Desktop.
 2. Create the first account in the browser **after the page has hydrated** (an unhydrated form submits as GET and puts the password in the URL). Then set `DISABLE_REGISTRATION=true` and restart.
 3. Keep `restart: always` and enable "start Docker Desktop at sign-in"; disable sleep if the machine is the scheduler.
 
@@ -63,7 +63,7 @@ Plan around the blockers: start audits early, post TikTok/YouTube natively (TikT
 ### 4. X
 
 1. Developer Console onboarding: account name, a precise use-case description (own account only, no data resale, no automated likes/follows/DMs), accept terms.
-2. Buy the smallest credit pack; **leave auto-recharge off; set Billing Cycle Cap** (e.g. $5). New accounts may also get free credits; the dashboard total can lag behind the Credits page.
+2. Buy the smallest credit pack; **leave auto-recharge off and set a billing cycle cap**. The dashboard total can lag behind the Credits page.
 3. App › User authentication settings: **Read and write**, "Web App, Automated App or Bot", callback = scheduler callback (Postiz: `/integrations/social/x`), website, terms and privacy URLs. Save shows the OAuth 2.0 client secret once.
 4. Postiz uses OAuth 1.0a: regenerate the **Consumer Key** and copy key + **"Consumer Key Secret"** (that exact label) once → `X_API_KEY/X_API_SECRET`.
 5. Authorizing: tick "I trust this app", confirm the screen shows the brand handle, then Authorize.
@@ -74,8 +74,7 @@ Account:
 - New accounts require phone verification and a number can sit on one account only; a web sign-up may end on "continue in the app". Options: a second number for brand accounts, or converting an existing personal account (new username and display name, profile photo, bio; archive/privatize old personal videos).
 - In some regions the one-tap "Switch to Business Account" is gone; the menu offers "Become a Verified Business Account", which asks for company documents. A personal account is enough: TikTok Studio scheduling, analytics, Spark Ads and the Content Posting API all work with it. The business music library is the main loss.
 - Username can change once per 30 days, display name once per 7 days. Web profile (name, bio, photo, counts) can lag the app by a day or more; trust the app.
-- Account region is set at sign-up from SIM/IP and can't be changed in settings. Don't fake it (VPN/foreign SIM). Reach comes mostly from language, captions, hashtags and who engages; use ad targeting for country focus.
-- Bio links on personal accounts unlock only after about 1,000 followers.
+- Account region is set at sign-up from SIM/IP and could not be changed in settings.
 
 Developer app (for the scheduler):
 - developers.tiktok.com sign-up shows only "Enterprise developer" (email + code + password), but when creating the app you can pick **Individual** ownership, so no company is needed to start.
@@ -93,12 +92,9 @@ Developer app (for the scheduler):
 
 ## Calendar
 
-- Split into phases keyed to real events, not a fixed date: **pre-launch** (no "download now", no price), **iOS launch day**, **iOS-only** (CTA says Android soon; store links route per platform), **Android launch**, **both live**. Store review dates move; re-anchor the calendar when they do.
-- One video per day can go to Reels, TikTok and Shorts with platform captions; upload the clean master everywhere (never a downloaded TikTok with watermark).
-- Don't mirror the same text on X and Threads; rotate themes so no message repeats more than once a week; keep claims checked against the shipped app (streaks, minimum calories, what a free account gets).
-- Video bar: a hook in the first second, a cut every 1–2 s, kinetic captions, sound effects, a story (problem → twist → app), varied endings. A static screen with a voiceover underperforms.
-- Stories with polls/links/countdowns are posted by hand in the app.
-
+- Key the posting calendar to real launch events, not fixed dates: pre-launch (no download call to action, no price), then each store's launch, then both live. Store review dates move; re-anchor the calendar when they do.
+- Check every claim in a post against the shipped build, and every call to action against what is actually live on each store.
+- Stories with polls, links or countdowns cannot be published through the API; post them in the app.
 
 ## Decision points needing human approval
 
@@ -109,9 +105,8 @@ Creating brand accounts, business portfolio, Facebook Page; exposing a local ser
 - Connecting the personal Instagram account because the OAuth pop-up reused the browser's session.
 - Assuming the old Instagram-Login setup exists on a new Meta app.
 - Adding publishing use cases to the Meta app that ships inside the mobile app.
-- Elasticsearch left in the stack (≈700 MB RAM) when Temporal SQL visibility is enough.
+- Elasticsearch left in the stack when Temporal SQL visibility is enough.
 - The upstream compose file grabbing a port already used by another local service.
 - X key saved from the wrong label ("Consumer Key Secret", not the dialog title).
 - Calendar written as if the app were live on both stores on day 1.
 - Doing all TikTok account changes and the developer connection on the same day, which trips the verification-code rate limit.
-- Comment-to-DM link automation ("comment LINK and I'll DM it to you") before there is an audience or a live store link. Add it after launch on the best-performing Reels via a Meta-approved tool; it needs the Instagram messaging permission.

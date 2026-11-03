@@ -7,7 +7,7 @@ description: Use when writing, translating, reviewing or uploading App Store and
 
 ## Purpose
 
-Listing text that fits every limit, ranks for the right words, says nothing the app cannot back up, and never mentions the other platform.
+Listing text that fits every limit, uses its limits well, says nothing the app cannot back up, and never mentions the other platform.
 
 ## Prerequisites
 
@@ -47,11 +47,10 @@ Verify current limits in App Store Connect and Play Console help before relying 
 
 ## Writing guidance
 
-- Lead with the concrete outcome in the first 2–3 lines; that is what shows before "more".
-- Use the words people search for (from keyword research), not internal feature names.
 - Keep feature names consistent with what the app shows on screen.
-- Short paragraphs with uppercase section headings read well on both stores (no Markdown; both stores show plain text).
-- Translate with a native reviewer; check that translated strings still fit the limits.
+- Both stores show plain text; do not use Markdown.
+- Check that translated strings still fit the limits (the validator does this).
+- Consider keyword research and a native-speaker review of each translation.
 
 ## Decision points needing human approval
 

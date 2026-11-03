@@ -87,7 +87,7 @@ Save the inventory as `docs/privacy-inventory.md`. Every answer below cites a ro
 - Before first use of an AI feature: a short consent sheet naming the provider and role ("processed by <AI provider> to generate the answer"), what is sent, that it is **not used to train models** (only if the provider's terms say so for your plan), and retention (provider's and yours). A switch in settings to withdraw.
 - Policy wording: the AI provider acts as a **processor/service provider** on your instructions; list it with location and retention.
 - Store forms: AI inputs (messages, photos, text) are collected data (User Content); usually not "shared" on Play when the provider is a processor.
-- Content safety: AI answers for health/finance topics carry a "not professional advice" line; crisis topics get a safe response.
+- Consider: a "not professional advice" line on AI answers about health or finance, and a defined safe response for crisis topics.
 
 ## 10. Health data
 

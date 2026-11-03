@@ -42,7 +42,7 @@ EXTERNAL SERVICES
 - <Auth/database provider, region>: <what for>
 - <Payments: StoreKit via <wrapper>>: subscriptions and entitlement status
 - <AI provider>: <features>, called only from our server
-- <Data sources, e.g. food/maps API>: <what for>
+- <Data sources, e.g. maps API>: <what for>
 - <Email provider>: sign-in codes / transactional email
 - <Health framework>: optional, on device
 

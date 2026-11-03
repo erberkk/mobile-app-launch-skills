@@ -17,7 +17,7 @@ Know about problems before users write reviews, keep variable costs (especially 
 
 ## 1. Alert channels
 
-Three channels, one incoming webhook each (stored as backend secrets, never in the app):
+Example setup: three channels, one incoming webhook each (stored as backend secrets, never in the app):
 
 | Channel | What | When |
 |---|---|---|
@@ -39,7 +39,7 @@ Sender skeleton: [templates/notify.ts](templates/notify.ts).
   - **Scrub PII** on the device before sending: emails, phone numbers, tokens, IPs (v4 and v6), free-text user input. Unit-test the scrubber.
   - Send app version, build, OS, device class, a stack fingerprint, and a **coarse, anonymous rate bucket** (e.g. sessions-per-day bucket) instead of user IDs, if reports are "not linked" in your privacy answers.
   - Let users turn reporting off in settings if your privacy policy says so.
-  - Keep retention short (e.g. 30 days) and state it in the policy.
+  - State the retention period in the policy.
 - Upload debug symbols / mapping files from CI (obfuscated builds are unreadable otherwise).
 - Alert on rate, not single events: e.g. a fingerprint seen by > N installs in an hour, or crash-free sessions below a threshold.
 - Also watch store-side vitals: Play Console Android vitals (crash and ANR rates) and Xcode Organizer / App Store Connect crashes.
@@ -52,7 +52,7 @@ AI features are the one cost that scales with a single user's behaviour. Guard a
 - Count cost from the provider's reported token usage per request, priced per model; store per user per day.
 - **Record cost even when the stream is aborted** (user closes the screen, timeout, client disconnect): accumulate usage as the stream progresses and write it in a `finally` block. Otherwise aborted streams are free compute.
 - Rate-limit bursts per user and per IP (guests), with `Retry-After`.
-- Default to the cheapest adequate model; escalate to a larger model only on explicit signals, and post every escalation to `#alert` while you tune it.
+- If you route between models, define explicit escalation rules and alert on escalations while you tune them (a wrong rule can multiply cost).
 - When a budget is reached: degrade (cheaper model, fewer requests) rather than fail silently; warn once at ~80%. Do not advertise "unlimited".
 - Daily job: total AI spend vs revenue; alert if spend per active subscriber exceeds a threshold.
 
@@ -63,7 +63,7 @@ See [references/ai-cost-guard.md](references/ai-cost-guard.md) for a schema and 
 - **App Store**: list reviews with `GET /v1/apps/{id}/customerReviews` (sort by `-createdDate`), reply with `POST /v1/customerReviewResponses`. Turn on App Store Connect email notifications for developer responses.
 - **Google Play**: `reviews.list` and `reviews.reply` (Android Publisher API; covers recent reviews with text). Enable Play Console email notifications for low-star reviews.
 - Daily job: fetch new reviews, post a summary to `#growth`, post 1–2 star reviews to `#alert` with the app version.
-- Replies: draft automatically if you like, but a human approves before posting (**APPROVAL**). Be short, specific, no copy-paste walls, never ask for personal data in public; offer the support address.
+- Replies: draft automatically if you like, but a human approves before posting (**APPROVAL**). Never ask for personal data in a public reply; offer the support address.
 - In-app rating prompts: use the system APIs (`SKStoreReviewController` / `requestReview`, Play In-App Review); never offer rewards for ratings.
 
 ## 5. Capacity and service alerts

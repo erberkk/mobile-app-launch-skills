@@ -1,14 +1,14 @@
 # AI crawlers and llms.txt
 
-People increasingly ask assistants "which app does X?". Whether your site can be read and cited is a product decision for the owner (**APPROVAL**), not a default.
+Whether AI assistants and AI search features may read and cite your site is a decision for the owner (**APPROVAL**), not a default.
 
 ## Three kinds of bot
 
-| Kind | What it does | Typical choice for an app site |
+| Kind | What it does | Consideration |
 |---|---|---|
-| **Search / answer index** | Builds the index an assistant searches and cites | Allow. Blocking it removes you from those answers |
-| **User-initiated fetch** | Fetches a page because a user asked about it right now | Allow. Several providers say robots.txt may not apply to these |
-| **Training** | Collects content that may train future models | Owner's choice. A marketing site has little to protect; some owners still opt out on principle |
+| **Search / answer index** | Builds the index an assistant searches and cites | Blocking it keeps you out of that index |
+| **User-initiated fetch** | Fetches a page because a user asked about it right now | Several providers say robots.txt may not apply to these |
+| **Training** | Collects content that may train future models | Owner's choice |
 
 Blocking training bots does not, by the providers' own documentation, remove you from their search features; those use separate tokens.
 
@@ -66,7 +66,7 @@ A proposed convention ([llmstxt.org](https://llmstxt.org/)): a Markdown file at 
 
 Template: [templates/llms.example.txt](../templates/llms.example.txt).
 
-## Measuring without trackers
+## Measuring without trackers (consider)
 
 - Monthly, ask a fixed set of 5–10 questions in several assistants and note whether the app is named and which page is cited.
 - Count assistant referrers (`chatgpt.com`, `perplexity.ai`, and so on) in server/edge logs, which needs no client script.

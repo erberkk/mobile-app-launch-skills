@@ -3,11 +3,11 @@
   "stores": {
     "ios": {
       "en-US": {
-        "name": "Example: Meal & Workout Plan",
-        "subtitle": "Plans that fit your real week",
-        "keywords": "meal planner,calorie counter,workout plan,food diary,macros,protein,fitness",
-        "promotionalText": "New: plan around events. Set a dinner date and the week still adds up.",
-        "description": "Example App builds a meal and training plan that adapts to your week.\n\nLOG IN SECONDS\nType it, say it or scan a barcode.\n\nWORKS WITH APPLE HEALTH\nRead steps and workouts, write meals and weight.\n\nExample App is for general wellness and is not medical advice.\nTerms: https://example.com/terms\nPrivacy: https://example.com/privacy",
+        "name": "Example: Habit Tracker",
+        "subtitle": "Build routines that stick",
+        "keywords": "habit tracker,routine,daily planner,streaks,reminders,goals,checklist",
+        "promotionalText": "New: weekly review. See how your last 7 days went.",
+        "description": "Example App helps you build daily routines.\n\nSET UP IN SECONDS\nPick a habit, choose the days, get a reminder.\n\nWORKS WITH APPLE HEALTH\nRead steps to complete a walking habit automatically.\n\nREVIEW YOUR WEEK\nSee your last 7 days at a glance.\n\nExample App is for general wellness and is not medical advice.\nTerms: https://example.com/terms\nPrivacy: https://example.com/privacy",
         "whatsNew": "First release.",
         "supportUrl": "https://example.com/support",
         "marketingUrl": "https://example.com",
@@ -16,15 +16,17 @@
     },
     "android": {
       "en-US": {
-        "title": "Example: Meal & Workout Plan",
-        "shortDescription": "Meal and workout plans that fit your real week.",
-        "fullDescription": "Example App builds a meal and training plan that adapts to your week.\n\nLOG IN SECONDS\nType it, say it or scan a barcode.\n\nWORKS WITH HEALTH CONNECT\nRead steps and workouts, write meals and weight.\n\nExample App is for general wellness and is not medical advice.",
+        "title": "Example: Habit Tracker",
+        "shortDescription": "Build daily routines that stick.",
+        "fullDescription": "Example App helps you build daily routines.\n\nSET UP IN SECONDS\nPick a habit, choose the days, get a reminder.\n\nWORKS WITH HEALTH CONNECT\nRead steps to complete a walking habit automatically.\n\nREVIEW YOUR WEEK\nSee your last 7 days at a glance.\n\nExample App is for general wellness and is not medical advice.",
         "releaseNotes": "First release."
       }
     }
   },
   "facts": {
     "comment": "Numbers the listing may quote. Keep them in sync with the code; the validator flags numbers in text that are not listed here.",
-    "allowedNumbers": ["7", "8"]
+    "allowedNumbers": [
+      "7"
+    ]
   }
 }

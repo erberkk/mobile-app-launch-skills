@@ -17,7 +17,7 @@ Sell a subscription that works the same on both stores, is priced on purpose in 
 
 ## 1. Product model
 
-Keep it simple: one subscription group / one subscription with two durations is enough for most indie apps.
+Start with the smallest model that fits your offer, for example one subscription group / one subscription with two durations.
 
 | Concept | App Store | Google Play |
 |---|---|---|
@@ -31,10 +31,10 @@ Product IDs are permanent. Decide them once (**APPROVAL**).
 
 ## 2. Pricing (APPROVAL for every price)
 
-Strategy that works for indie apps:
+Suggested approach:
 
 1. Pick a base price in USD; let both stores generate other countries from it.
-2. Override only the markets where the auto-conversion is wrong for you (for example euro countries to a clean `x.99`, and markets with very different purchasing power).
+2. Override only the markets where the auto-conversion is wrong for you (for example to round to your preferred price endings).
 3. Apple only accepts its **price points**; the exact value you want may not exist. List available points first and choose the nearest.
 4. Show the saving of the annual plan computed from **store prices at runtime**, not a hardcoded percentage.
 5. Record decisions with date and rationale in a private doc.
@@ -63,7 +63,7 @@ Using RevenueCat (any equivalent works the same way):
 2. Model: products → one **entitlement** (`premium`) → one **offering** (`default`) with packages (`$rc_monthly`, `$rc_annual`).
 3. App: configure the SDK with the **public** platform keys (`appl_…`, `goog_…`); pass them at build time, not committed. Identify the user with your backend user ID (`logIn(userId)`) so purchases follow the account.
 4. **Server as source of truth**: a webhook endpoint (Bearer secret) writes an `entitlements` row (`user_id`, `entitlement`, `active`, `expires_at`, `source`) for events like `INITIAL_PURCHASE`, `RENEWAL`, `CANCELLATION`, `BILLING_ISSUE`, `EXPIRATION`, `PRODUCT_CHANGE`, `TRANSFER`. Premium-gated server features check this table, never a client flag. Make the handler idempotent (event id) and tolerant of out-of-order events (compare event timestamps).
-5. **Restore behaviour**: decide what happens when one store account is used by two app accounts (transfer to the new user vs keep). Test it; reviewers often use a fresh store account.
+5. **Restore behaviour**: decide what happens when one store account is used by two app accounts (transfer to the new user vs keep). Test it, including with a fresh store account.
 6. **Account deletion**: when a user deletes their account, also delete the RevenueCat customer: `DELETE https://api.revenuecat.com/v2/projects/{project_id}/customers/{customer_id}` with a v2 secret key that has `customer_information:customers:read_write`. Deletion does **not** cancel a store subscription; tell the user how to cancel before deleting.
 7. Manual grants (support, reviewers): insert an entitlement row with `source = 'manual'` and an explicit expiry; keep a log.
 
