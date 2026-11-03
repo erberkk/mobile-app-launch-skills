@@ -113,4 +113,4 @@ Creating brand accounts, business portfolio, Facebook Page; exposing a local ser
 - X key saved from the wrong label ("Consumer Key Secret", not the dialog title).
 - Calendar written as if the app were live on both stores on day 1.
 - Doing all TikTok account changes and the developer connection on the same day, which trips the verification-code rate limit.
-- Comment-to-DM link automation ("comment KIVO and I'll DM you the link") before there is an audience or a live store link. Add it after launch on the best-performing Reels via a Meta-approved tool; it needs the Instagram messaging permission.
+- Comment-to-DM link automation ("comment LINK and I'll DM it to you") before there is an audience or a live store link. Add it after launch on the best-performing Reels via a Meta-approved tool; it needs the Instagram messaging permission.
