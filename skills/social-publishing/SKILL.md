@@ -57,7 +57,8 @@ Plan around the blockers: start audits early, post TikTok/YouTube natively (TikT
    - App ID + secret (App settings › Basic; showing the secret asks for the Facebook password) → `FACEBOOK_APP_ID/SECRET`.
 3. Threads: add `threads_basic`, `threads_content_publish`, `threads_manage_replies`, `threads_manage_insights`; set redirect (`/integrations/social/threads`) plus uninstall/delete callback URLs; take the separate **Threads app ID/secret**; add the brand profile as **Threads Tester** and accept the invite on the phone.
 4. If the Threads consent URL lands on the Threads home page instead of the consent screen, the browser session lives on `threads.com` while the scheduler uses `threads.net`: open the same URL on `threads.com`.
-5. During the Facebook consent, Meta defaults to "all current and future Pages/Businesses/Instagram accounts". On an account that manages other brands, choose "current only" and pick the brand's assets.
+5. If the browser is currently acting as the Page (after editing it), the Facebook consent first shows "You need to switch to <your name>"; continue as the person, not the Page.
+6. During the Facebook consent, Meta defaults to "all current and future Pages/Businesses/Instagram accounts". On an account that manages other brands, choose "current only" and pick the brand's assets.
 
 ### 4. X
 
@@ -69,9 +70,20 @@ Plan around the blockers: start audits early, post TikTok/YouTube natively (TikT
 
 ### 5. TikTok (optional)
 
-- New accounts require phone verification and a number can sit on one account only; a web sign-up may end on "continue in the app". Options: a second number for brand accounts, or converting an existing personal account (rename, switch to Business Account in the app, archive/privatize old personal videos).
-- Web profile counts can lag the app for a while after changes; trust the app.
-- API publishing stays private until the audit; schedule in TikTok Studio meanwhile.
+Account:
+- New accounts require phone verification and a number can sit on one account only; a web sign-up may end on "continue in the app". Options: a second number for brand accounts, or converting an existing personal account (new username and display name, profile photo, bio; archive/privatize old personal videos).
+- In some regions the one-tap "Switch to Business Account" is gone; the menu offers "Become a Verified Business Account", which asks for company documents. A personal account is enough: TikTok Studio scheduling, analytics, Spark Ads and the Content Posting API all work with it. The business music library is the main loss.
+- Username can change once per 30 days, display name once per 7 days. Web profile (name, bio, photo, counts) can lag the app by a day or more; trust the app.
+- Account region is set at sign-up from SIM/IP and can't be changed in settings. Don't fake it (VPN/foreign SIM). Reach comes mostly from language, captions, hashtags and who engages; use ad targeting for country focus.
+- Bio links on personal accounts unlock only after about 1,000 followers.
+
+Developer app (for the scheduler):
+- developers.tiktok.com sign-up shows only "Enterprise developer" (email + code + password), but when creating the app you can pick **Individual** ownership, so no company is needed to start.
+- Create the app, then a **Sandbox**: basic info (icon 1024², category, description ≤120 chars, terms/privacy URLs, Web platform URL), products **Login Kit** (Web redirect URI = scheduler callback; Postiz `/integrations/social/tiktok`) and **Content Posting API** (turn on Direct Post), and **all scopes the scheduler requests**. Postiz asks for `user.info.basic`, `user.info.profile`, `user.info.stats`, `video.list`, `video.upload`, `video.publish`; a missing one shows "Something went wrong … correct the following: scope" on the consent page. Click "Apply changes" after every edit.
+- Add the brand account as a Sandbox **Target user** (the login pop-up accepts a QR scan from the phone app). Use the sandbox client key/secret in the scheduler.
+- Push-by-file needs no domain verification; pull-by-URL does.
+- Before the audit: `UPLOAD` mode sends the video to the account's TikTok inbox as a draft (publish from the phone within 24 h; max 5 pending per 24 h). `DIRECT_POST` works but posts privately only. Submit the production app for review with a demo video for public direct posting.
+- The consent step can ask "Verify it's really you" with an email code. After many account changes in one day (email, name, bio, new logins) TikTok rate-limits these codes ("Maximum number of attempts reached"): stop and retry the next day instead of hammering it.
 
 ### 6. Verify
 
@@ -100,3 +112,5 @@ Creating brand accounts, business portfolio, Facebook Page; exposing a local ser
 - The upstream compose file grabbing a port already used by another local service.
 - X key saved from the wrong label ("Consumer Key Secret", not the dialog title).
 - Calendar written as if the app were live on both stores on day 1.
+- Doing all TikTok account changes and the developer connection on the same day, which trips the verification-code rate limit.
+- Comment-to-DM link automation ("comment KIVO and I'll DM you the link") before there is an audience or a live store link. Add it after launch on the best-performing Reels via a Meta-approved tool; it needs the Instagram messaging permission.
