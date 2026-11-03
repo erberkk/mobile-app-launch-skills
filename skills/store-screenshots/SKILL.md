@@ -42,6 +42,14 @@ Full table with logical sizes and API identifiers: [references/device-matrix.md]
 
 Apple: up to 10 per size; PNG or JPEG; **no alpha channel or transparency**. Play: up to 8 per device type; JPEG or 24-bit PNG (no alpha).
 
+**App Store product-page creative assets (newer App Store Connect, "Header and Search Results" tab):**
+
+- **Header**: one wide image at the top of the product page, 3840×1646 or 5244×2950. Optional (submission passes without it), but an empty slot wastes the most visible area of the page.
+- **Search Results**: 5244×2950, 3840×2560 or 1920×1280; if empty, screenshots and previews are used.
+- Upload through the version page or the **Asset Library** (Upload Creative Assets), then pick it with Browse Assets. Assets uploaded to the library stay there for later use.
+- Design: keep the lower-left area calm (the store overlays the icon, name and Get button), keep text big enough to read at phone width, and reuse the site hero's look so the page and the site match.
+- These slots are **locked while the version is Waiting for Review**. Add them before submitting.
+
 ## Procedure
 
 ### 1. Plan the story (APPROVAL of the storyboard)

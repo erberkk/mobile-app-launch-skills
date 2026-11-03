@@ -62,6 +62,14 @@ Anonymized incidents from shipping subscription apps to the App Store and Google
 
 **The Play closed-test track and tester list were ready, but no release was in the track, so the 14-day counter never started.** → The counter needs a live closed-test release and opted-in testers; check the count weekly.
 
+**A closed-test tester started the "free trial" and asked whether they would be charged. They would have been.** The tester list was on the closed track but not ticked under Play's account-wide License testing, so the purchase was real. → Tick the closed-test email list under License testing before any tester can reach the paywall; testers should see "Test card, always approves".
+
+**The first iOS submission could not select a build.** The App Store version was named `1.0` while every build was `1.0.0`; the Build section showed only "Upload your builds". → Name the store version exactly like the builds' marketing version.
+
+**The first subscriptions could not be added to the review draft.** One subscription had no display-name localization, and neither had a review screenshot. → Fill localization and a real paywall screenshot for every product before "Add for Review".
+
+**The version was pulled from review to add a product-page Header image; the new draft no longer contained the subscriptions.** Removing a version from review marks the version and its subscriptions "Developer Rejected" and empties the draft. → Add every product-page asset before submitting; if you must pull a version, re-add the group and each subscription and check the draft lists all items.
+
 **A guest rate limit (by IP) was accidentally applied to paying subscribers.** → Test limits per user type; alert on limit hits for premium users.
 
 **An escalation to a larger AI model fired far more often than intended.** After fixing the escalation rule, cost per request dropped by more than an order of magnitude. → Alert on every expensive-model escalation while tuning; track AI cost per paying user daily.

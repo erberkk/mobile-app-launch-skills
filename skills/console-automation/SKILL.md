@@ -70,7 +70,10 @@ Write a new step file per action (navigate, read, fill, gate+save, verify) inste
 - **Session expiry.** The runner stops when the tab lands on a sign-in page. A human signs in again in the automation window; do not automate passwords or 2FA.
 - **Slow SPAs.** Prefer waiting for a specific element or text over fixed sleeps; when a fixed wait is unavoidable, keep it short and follow with a check.
 - **Virtualized tables** render only visible rows. Scroll in steps and collect rows until the count stops growing, then gate on the full set.
-- **Selectors drift.** Consoles change monthly. Prefer roles and visible text over CSS classes; keep selectors in one place per step.
+- **Selectors drift.** Consoles change monthly. Prefer roles and visible text over CSS classes; keep selectors in one place per step. Example: App Store Connect's add-to-draft menu item reads "Draft Submission (1)" on one page and "Draft iOS Submission (1)" on another; match both.
+- **Material checkboxes.** A forced click on the hidden `<input>` can look checked without updating the form, so Save does nothing. Click the visible checkbox by its bounding box, then read the state back.
+- **Confirm dialogs after Save.** Account-wide settings (e.g. Play License testing) open a "save changes?" dialog; the change is lost unless the step confirms it. Always reload and read the value back after saving.
+- **Guards that compare text** should match on a stable prefix or a regex, not on a truncated string; a too-strict guard aborts a correct run (harmless, but wastes a cycle).
 
 ## Decision points needing human approval
 

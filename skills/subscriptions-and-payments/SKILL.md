@@ -74,8 +74,16 @@ See [references/webhook-handler.md](references/webhook-handler.md) for a handler
 | | iOS | Android |
 |---|---|---|
 | Tester | Sandbox Apple Account (App Store Connect › Users and Access › Sandbox), or TestFlight | License testers (Play Console › Settings › License testing) on an internal/closed test install |
-| Cost | TestFlight and sandbox purchases are free | License testers are not charged |
+| Cost | TestFlight and sandbox purchases are free | License testers are not charged. **Closed/internal testers who are not license testers pay real money**, and a free trial they start renews into a real charge |
 | Renewal speed | Sandbox renewals are accelerated (a month lasts minutes) | Test renewals are accelerated |
+
+Play license testing setup (do it before the first tester can reach the paywall):
+
+- Play Console › account home › Manage account (badge icon) › **License testing** (`/developers/<id>/license-tester`). It is **account-wide**: one setting for every app in the developer account, not per app.
+- Tick the same email list you use for the closed-test track (or a Google Group). Anyone you add to that list later becomes a license tester automatically; no second step. Keep the response at `RESPOND_NORMALLY`.
+- Saving opens a confirm dialog ("these changes affect all your apps"); the change is not saved until you confirm. Reload the page and read the ticks back.
+- The tester must use the same Google account as the Play Store account on the device. New entries can take minutes to hours to apply. A tester sees "Test card, always approves" on the purchase sheet; if they see a real card or balance, they should stop.
+- Anyone who started a trial before being added: tell them to cancel in Play Store › Payments & subscriptions › Subscriptions (access stays until the trial ends).
 
 Test matrix (each platform): first purchase with trial, purchase without trial (ineligible), restore on reinstall, restore on a second device, cancel → expiry, billing failure → grace (sandbox setting), upgrade/downgrade between monthly and annual, purchase while signed out / guest (if allowed), backend `entitlements` row written for each case.
 
@@ -110,6 +118,7 @@ Product IDs, prices per country, trial length, grace period settings, manual ent
 ## Common pitfalls
 
 - First subscription not attached to the first app version submission → products never reviewed.
+- Closed-test track live, but the tester list not ticked under Play License testing → testers' "free trial" turns into a real charge.
 - Hardcoded prices or saving percentages that drift from the store.
 - Client-side premium flag trusted by the server.
 - Webhook not idempotent; duplicate `RENEWAL` extends access twice.

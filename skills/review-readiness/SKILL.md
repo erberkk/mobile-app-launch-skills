@@ -32,7 +32,10 @@ The reviewer installs a clean build on a device you did not test (often an iPad,
 
 ### 2. Purchases (2.1(b) and 3.1.x)
 
-- First-version subscriptions are attached to the version in App Store Connect ("In-App Purchases and Subscriptions" section) and have a review screenshot and notes.
+- First-version subscriptions are attached to the version in App Store Connect ("In-App Purchases and Subscriptions" section) and have a review screenshot and notes. In the newer App Store Connect UI there may be no such section on the version page: open the subscription group and each subscription and use **Add for Review → Draft Submission**; the version itself is added from its own page. The draft must list the version, the group and every subscription before you press Submit for Review.
+- Each subscription needs at least one **display name + description localization** and a **review screenshot**; without them "Add for Review" fails ("You must add at least one subscription localization / a Review Information screenshot").
+- The review screenshot must show the real paywall with real prices and the right store wording. If you render it from a widget/UI test, force the iOS platform (otherwise it says "Google Play") and feed realistic store prices; a "prices unavailable" state is not acceptable.
+- **The App Store version string must equal the builds' marketing version** (`CFBundleShortVersionString`). A version named `1.0` will not offer builds uploaded as `1.0.0`; the Build section just says "Upload your builds" with no Add Build button. Rename the version to match.
 - On TestFlight with a **fresh** sandbox Apple Account (not linked to any of your app accounts): products load, purchase works, restore works.
 - Paywall error state shows retry, never a disabled "Coming soon".
 - If an IAP cannot be reached in the app (e.g. only for a region), explain why in the review notes.
@@ -88,6 +91,9 @@ The go/no-go report is complete with evidence, and someone who did not build the
 - Demo account depends on an email code the reviewer cannot read.
 - Demo account empty, frozen, or deleted by a cleanup job.
 - Products in "Missing Metadata" (no review screenshot), so they never load in review.
+- Removing a version from review ("Developer Rejected") also drops the subscriptions from the draft; re-add the group and each subscription before resubmitting, or the version goes alone.
+- Product-page assets are locked while the version is "Waiting for Review" (e.g. the newer Header asset). Add everything before submitting; otherwise you must remove the version from review, edit, and resubmit (you lose your place in the queue).
+- Apple's own "Add for Review" check passing does not mean optional assets are set: an empty Header asset is allowed, so decide about it before you submit.
 - A reviewer's fresh Apple Account collides with your restore/transfer rules and the purchase "fails".
 - Backend on a free tier that pauses after inactivity or rate-limits the reviewer.
 - "Coming soon" anywhere in the build.
