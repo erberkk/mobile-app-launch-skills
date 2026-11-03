@@ -35,6 +35,23 @@ ACCOUNT DELETION
 TRACKING / ADS
 <"No advertising, no tracking, no ATT prompt." or describe accurately.>
 
+SCREEN RECORDING
+A recording from a physical <iPhone> on the latest <iOS>, starting at app launch, is attached to our reply in App Review messages (<file name>). It shows onboarding, account creation with <providers>, the main features, the sandbox purchase, premium features and account deletion.
+
+EXTERNAL SERVICES
+- <Auth/database provider, region>: <what for>
+- <Payments: StoreKit via <wrapper>>: subscriptions and entitlement status
+- <AI provider>: <features>, called only from our server
+- <Data sources, e.g. food/maps API>: <what for>
+- <Email provider>: sign-in codes / transactional email
+- <Health framework>: optional, on device
+
+REGIONAL DIFFERENCES
+<"The app works the same in all regions; prices follow each storefront." or list differences.>
+
+REGULATED CONTENT
+<"General wellness app, not a medical device; no protected third-party content." or list documents.>
+
 CONTACT
 <email> · https://example.com/support
 ```

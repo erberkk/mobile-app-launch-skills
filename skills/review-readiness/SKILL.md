@@ -47,6 +47,8 @@ The reviewer installs a clean build on a device you did not test (often an iPad,
 - **iPad**: even an iPhone-only app runs on iPad in compatibility mode and may be reviewed there. Run the full flow on an iPad simulator: sign-in (including Sign in with Apple), paywall scrolling, purchase sheet, keyboard over forms, permission prompts, rotation. If HealthKit or another API is unavailable there, show a polite message, not a crash.
 - Smallest supported phone and largest text size: no clipped buttons on the paywall or consent screens.
 - Release build, not debug: no debug banner, no test menus, analytics/crash reporting on in production configuration.
+- **Walk the account lifecycle on a physical device with the exact build you submit**: install, onboarding, create a new account with each sign-in provider, use the main features, buy in the sandbox, then delete the account. The app must land on a clean start screen after deletion (a black or blank screen is a common bug: auth listeners, routers and cleared local stores racing). Unit tests did not catch it; the screen recording did.
+- **Social sign-in signs in or signs up.** "Continue with Apple/Google" must log in an existing account and create a missing one, whatever "Log in / Register" tab is selected. Telling the user "you already have an account, go to Log in" is friction reviewers and users both hit.
 
 ### 4. Content and metadata
 
@@ -65,6 +67,14 @@ The reviewer installs a clean build on a device you did not test (often an iPad,
 ### 6. Review notes
 
 Fill in [templates/review-notes.md](templates/review-notes.md). Keep it factual: where features are, how to sign in, how to test the purchase, how AI and health data are handled, where account deletion is.
+
+New apps increasingly get **Guideline 2.1 "Information Needed"** before any real review. Apple then asks for six things in the Notes field; answer all of them up front in the first submission:
+1. A **screen recording from a physical device on the latest OS**, starting at app launch and showing the typical flow: registration, login, **account deletion**, any user-generated content with reporting/blocking, and access to paid content. Record it with the submitted build; attach the file to the reply in the submission's Messages (or link it) and mention it in Notes. Never use the demo review account for the deletion part: create a fresh account in the recording.
+2. The app's purpose and target audience: the problem it solves and its value.
+3. Setup and access instructions for the main features, with demo credentials and menu paths.
+4. Every external service behind core features: auth/database, payments (StoreKit + any wrapper), AI providers, data sources (e.g. food or map APIs), email, health frameworks.
+5. Regional differences, or a statement that features are the same everywhere.
+6. For regulated areas or third-party protected content: documentation or a statement that none applies (e.g. "general wellness, not a medical device").
 
 ### 7. Go/no-go report
 
@@ -98,3 +108,5 @@ The go/no-go report is complete with evidence, and someone who did not build the
 - Backend on a free tier that pauses after inactivity or rate-limits the reviewer.
 - "Coming soon" anywhere in the build.
 - In-app text mentioning the other store.
+- Review notes that only explain the demo login; a 2.1 "Information Needed" reply then costs a round trip (recording, purpose, services, regions).
+- Account deletion that ends on a blank screen, found only when someone records the full flow on a device.

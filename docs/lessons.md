@@ -76,6 +76,12 @@ Anonymized incidents from shipping subscription apps to the App Store and Google
 
 **The version was pulled from review to add a product-page Header image; the new draft no longer contained the subscriptions.** Removing a version from review marks the version and its subscriptions "Developer Rejected" and empties the draft. → Add every product-page asset before submitting; if you must pull a version, re-add the group and each subscription and check the draft lists all items.
 
+**The first iOS submission came back as 2.1 "Information Needed", not a rejection for a bug.** Apple asked for a device screen recording from launch through registration, paid features and account deletion, plus purpose, setup steps, external services, regional differences and regulatory status. The notes had only covered the demo login. → `review-readiness` section 6 lists all six items; answer them in the first submission.
+
+**Recording that walkthrough found a black screen after account deletion in the build already under review.** Tests covered the delete call, not what the app shows afterwards. The same session showed that "Continue with Apple" refused to sign in an existing user while the "Register" tab was selected. → Walk the full account lifecycle on a device with the submitted build before submitting; social sign-in must log in or sign up regardless of mode.
+
+**A generated workout put 9 exercises into a "45 min" session, and a generated shopping list included tap water.** Both were plausible to code and absurd to a user. → Generated plans need hard, evidence-based limits (exercise counts per day type, rest and setup time in the estimate) and data-driven exclusion lists (non-buyable and pantry items), with tests.
+
 **A guest rate limit (by IP) was accidentally applied to paying subscribers.** → Test limits per user type; alert on limit hits for premium users.
 
 **An escalation to a larger AI model fired far more often than intended.** After fixing the escalation rule, cost per request dropped by more than an order of magnitude. → Alert on every expensive-model escalation while tuning; track AI cost per paying user daily.
