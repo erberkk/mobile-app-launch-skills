@@ -99,14 +99,6 @@ Developer app (for the scheduler):
 - Video bar: a hook in the first second, a cut every 1–2 s, kinetic captions, sound effects, a story (problem → twist → app), varied endings. A static screen with a voiceover underperforms.
 - Stories with polls/links/countdowns are posted by hand in the app.
 
-## Producing a stock of content at scale
-
-Posting 2-3 times a day per platform needs a stock, not hand-made pieces. What worked:
-- **Content bank + templates + bulk render.** One agent writes a bank file (hook, beats, caption, hashtags, phase) for every piece; another builds a few templates (text/POV reel with music and SFX, voiced feature reel, tip reel, carousel 4:5 + 9:16, story card, cover). A script renders the whole bank, skips finished items and runs a quality check (resolution, bitrate, colour range, loudness, duration) on each file. Review one contact sheet per batch, not every frame.
-- **Mix of kinds.** Feature demos are only part of the stock; add relatable/POV humour (text + music, no voice), myth-vs-fact and quick tips (voiced), seasonal pieces, polls. Don't plan "second cuts" of every video up front; re-cut only the ones that performed.
-- **AI voice once.** Generate each voiceover once from a final script and fix timing in the edit; keep the audio files as the only copy.
-- **Covers.** Each reel gets its own cover from a cover template (big hook, kind tag, one visual), with text inside the profile-grid crop (centre 3:4 of a 9:16 cover), rotating background colours so neighbours differ. Render a grid preview in posting order.
-- **Claims and numbers.** Crop real app captures so no specific numbers (calories, weights) show unless intended; check every claim against the shipped app's strings.
 
 ## Decision points needing human approval
 
