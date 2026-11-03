@@ -37,6 +37,7 @@ Scripts are Node.js 18+ ES modules unless noted. They have no dependencies excep
 | [review-readiness](skills/review-readiness/SKILL.md) | Go/no-go before submitting, demo account, review notes, answering a rejection |
 | [release-pipeline](skills/release-pipeline/SKILL.md) | CI builds, version numbers, TestFlight groups, Play testing tracks, staged rollout, remote kill switches |
 | [console-automation](skills/console-automation/SKILL.md) | A console task has no API and you need to drive the web UI safely with Playwright |
+| [social-publishing](skills/social-publishing/SKILL.md) | Scheduling launch content to Instagram, Threads, X (and TikTok) through official APIs with a self-hosted Postiz, Meta/X developer setup, pre- vs post-launch calendar |
 | [post-launch-ops](skills/post-launch-ops/SKILL.md) | Alerts, crash reporting, AI cost guards, review monitoring and replies, capacity warnings |
 
 Background reading: [docs/lessons.md](docs/lessons.md) collects anonymized incidents that shaped these skills.

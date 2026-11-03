@@ -89,6 +89,7 @@ Skills: `release-pipeline` (staged rollout, kill switches), `post-launch-ops`.
 1. Release. On Play use a staged rollout for updates (the first production release cannot be staged).
 2. Alerts, crash reporting, AI cost guards and review monitoring are live **before** the release, not after.
 3. Update the website after release (`web-presence-and-seo`): "coming soon" → real store badges, Smart App Banner, store links in JSON-LD and `llms.txt`, then ping IndexNow. **APPROVAL** before the switch.
+4. Social publishing (`social-publishing`): set up the scheduler and the Meta/X/TikTok developer access during Phase 4, because business portfolios, tester invites and API audits take days to weeks. Anchor the content calendar to the real review outcomes (pre-launch, iOS launch, Android launch), not to a fixed date.
 
 ## Status file template
 

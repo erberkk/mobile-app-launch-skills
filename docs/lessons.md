@@ -68,6 +68,12 @@ Anonymized incidents from shipping subscription apps to the App Store and Google
 
 **The first subscriptions could not be added to the review draft.** One subscription had no display-name localization, and neither had a review screenshot. → Fill localization and a real paywall screenshot for every product before "Add for Review".
 
+**The Instagram account-linking pop-up offered the founder's personal account.** The browser was logged in to the personal profile; continuing would have linked it to the brand Page and converted it to a professional account. → Read the "Log in as …" name in every OAuth pop-up; switch to the brand account first.
+
+**A month of content was planned as if the app were live on both stores on day 1.** iOS was still in review and Android needed 14 more days of closed testing, so most CTAs ("free on iOS & Android") were wrong, and an audit also found claims that contradicted the app. → Phase the calendar on real launch events and check every claim against the shipped build.
+
+**The self-hosted scheduler's backend would not start after removing Elasticsearch.** Temporal's database still held the default text search attributes from the Elasticsearch setup. → Disable the default attributes and recreate the Temporal database before scheduling anything.
+
 **The version was pulled from review to add a product-page Header image; the new draft no longer contained the subscriptions.** Removing a version from review marks the version and its subscriptions "Developer Rejected" and empties the draft. → Add every product-page asset before submitting; if you must pull a version, re-add the group and each subscription and check the draft lists all items.
 
 **A guest rate limit (by IP) was accidentally applied to paying subscribers.** → Test limits per user type; alert on limit hits for premium users.
