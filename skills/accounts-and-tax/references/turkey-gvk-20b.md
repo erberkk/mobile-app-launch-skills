@@ -23,6 +23,11 @@ The implementing rules are in the General Communiqués on Income Tax (Gelir Verg
 - Banks do not monitor the limit; withholding continues. Track your own totals.
 - Tax under-assessed because of unmet conditions can be collected with a tax-loss penalty and late-payment interest.
 
+## Switching existing store payouts to the dedicated account (observed)
+
+- **Google Play:** adding the new bank account in the payments profile starts a small test deposit (a few cents' worth, described as from Google) that arrives in a few days. You confirm the account by entering that exact amount in Play Console › Payments profile › Payment methods. Make it the primary account; remove the old one only after it is verified.
+- **Apple:** if your legal address changed, update it first. Apple Developer Support asks for proof of address, and it does not accept documents in Turkish alone (expect to provide an English document, for example an English bank statement showing your name and address, or a certified translation). Bank details in App Store Connect are tied to the account holder's identity and address, so fix the address before adding the new bank account.
+
 ## Practical checklist
 
 - [ ] Confirm with an accountant that 20/B fits your situation (individual, app sold through a store, no other conflicting status).
