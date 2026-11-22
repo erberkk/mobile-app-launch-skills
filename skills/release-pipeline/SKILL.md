@@ -59,6 +59,7 @@ Template: [templates/codemagic.yaml](templates/codemagic.yaml). Principles:
   - Start early; the counter runs only while a closed-test release is live and testers stay opted in.
   - Recruit more than 12 (some will not opt in or will leave). Track opt-ins weekly.
   - Collect real feedback (in-app feedback form) and keep a change log; you will cite it in the questionnaire.
+  - The questionnaire has 300-character answers and loses input if you leave it. Questions, answer patterns that were approved, and what to set after access is granted: [references/play-production-access.md](references/play-production-access.md).
 - **Production**: first release goes to 100% (staged rollout is only for updates). Use **managed publishing** if you want to control the exact moment changes go live.
 
 ## 5. Staged rollout (Play) and phased release (iOS)
